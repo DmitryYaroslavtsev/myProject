@@ -5,7 +5,7 @@ import java.sql.*;
 public class test {
     public static void main(String[] args) {
 
-        String url = "jdbc:postgresql://localhost:5432/contactdb";
+        String url = "jdbc:postgresql://localhost:5432/jc_contact";
         String login = "postgres";
         String password = "postgres";
         String[] str = {"Dmitry1", "Chekhov1", "+79871112231", "dmitry1@pisem.net"};
