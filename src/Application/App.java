@@ -17,7 +17,7 @@ public class App extends Application {
         Stage myStage = new Stage();
         myStage.setTitle("Application");
 
-        FlowPane rootNode = new FlowPane(10, 10);
+        GridPane rootNode = new GridPane();
 
         rootNode.setAlignment(Pos.TOP_LEFT);
         Scene myScene = new Scene(rootNode, 500, 500);
