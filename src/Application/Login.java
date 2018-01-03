@@ -13,12 +13,11 @@ public class Login extends Application {
     private App app;
     private Label lbRes;
     private TextField tfUser;
-    //TextField tfPass;
     private PasswordField pfPass;
     private Button btnLogin;
 
     //Variables for DB users
-    private String urlUsers = "jbdc:postgresql://localhost:5432/users";
+    private String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
     private String login = "postgres";
     private String pass = "postgres";
 
@@ -54,7 +53,7 @@ public class Login extends Application {
 
         //set action for button
         btnLogin.setOnAction((ae) -> {
-            if (tfUser.getText().equals("admin") && pfPass.getText().equals("admin")) {
+            if (checkUser(tfUser.getText(), pfPass.getText())) {
                 myStage.close();
                 app = new App();
                 app.start(myStage);
@@ -70,15 +69,24 @@ public class Login extends Application {
         rootNode.getChildren().addAll(lbStart, tfUser,pfPass,btnLogin,lbRes);
         //show stage
         myStage.show();
+        //checkUser("user", "user");
     }
 
+
+    //Connect too DB for verification of users
     boolean checkUser(String username, String password) {
         boolean check = false;
         try {
             Class.forName("org.postgresql.Driver");
-            Connection con = DriverManager.getConnection(urlUsers, login, pass);
-            try {
-
+            try (Connection con = DriverManager.getConnection(urlUsers, login, pass)) {
+                Statement stmt = con.createStatement();
+                ResultSet u = stmt.executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
+                while (u.next()) {
+                    if (u.getString("username").equals(username)) {
+                        if (u.getString("password").equals(password))
+                            check = true;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -86,10 +94,6 @@ public class Login extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
         return check;
     }
 
