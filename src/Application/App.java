@@ -9,10 +9,6 @@ import javafx.stage.*;
 
 public class App extends Application {
 
-    /*public static void main(String[] args) {
-        launch(args);
-    }
-    */
     @Override
     public void start(Stage primaryStage) {
         Stage myStage = new Stage();
@@ -35,12 +31,13 @@ public class App extends Application {
     Button createBtnTest() {
         Button btn = new Button("Test");
         btn.setOnAction((ae) -> {
-            if (i < 10) i++;
-            else {
-                i = 0;
-                btn.setText("Test");
+            if (10 > i++) {
+                btn.setText(Integer.toString(i));
             }
-            btn.setText(Integer.toString(i));
+            else {
+                btn.setText("Test");
+                i = 0;
+            }
         });
         return btn;
     }

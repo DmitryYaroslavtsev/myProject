@@ -5,6 +5,7 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.*;
 import javafx.stage.*;
 import java.sql.*;
 
@@ -32,24 +33,37 @@ public class Login extends Application {
         myStage.setTitle("Login");
 
         //create rootNode
-        FlowPane rootNode = new FlowPane(10,10);
+        GridPane rootNode = new GridPane();
         rootNode.setAlignment(Pos.TOP_CENTER);
-        //rootNode.setOrientation(Orientation.VERTICAL);
+        rootNode.setHgap(10);
+        rootNode.setVgap(10);
 
         //create Scene
-        Scene myScene = new Scene(rootNode, 180, 160);
+        Scene myScene = new Scene(rootNode, 250, 160);
+        myStage.setResizable(false);
 
         //set scene to stage
         myStage.setScene(myScene);
 
-        Label lbStart = new Label("Input your credentials");
+        //Label lbStart = new Label("Input your credentials");
+        Text lbStart = new Text("Input your credentials");
+        Label un = new Label("User Name");
+        Label pw = new Label("Password");
+        rootNode.add(un, 0, 1);
+        rootNode.add(pw, 0, 2);
+        rootNode.add(lbStart, 0, 0, 2, 1);
         tfUser = new TextField();
+        rootNode.add(tfUser, 1, 1);
         tfUser.setPromptText("Username");
         pfPass = new PasswordField();
+        rootNode.add(pfPass, 1,2);
         pfPass.setPromptText("Password");
 
-        btnLogin = new Button("Login");
-        lbRes = new Label("                                       ");
+        btnLogin = new Button("Sign in");
+        rootNode.add(btnLogin, 1,3);
+        lbRes = new Label("");
+
+        rootNode.add(lbRes, 0, 4, 2, 1);
 
         //set action for button
         btnLogin.setOnAction((ae) -> {
@@ -66,10 +80,8 @@ public class Login extends Application {
         tfUser.setOnAction((ae) -> btnLogin.fire());
         pfPass.setOnAction((ae) -> btnLogin.fire());
 
-        rootNode.getChildren().addAll(lbStart, tfUser,pfPass,btnLogin,lbRes);
         //show stage
         myStage.show();
-        //checkUser("user", "user");
     }
 
 
