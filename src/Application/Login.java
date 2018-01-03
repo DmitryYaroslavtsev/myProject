@@ -11,6 +11,7 @@ import javafx.stage.*;
 
 public class Login extends Application {
 
+    App app;
     Label lbStart;
     Label lbRes;
     TextField tfUser;
@@ -25,7 +26,7 @@ public class Login extends Application {
     public void start(Stage primaryStage) {
         //create Stage
         Stage myStage = new Stage();
-        myStage.setTitle("Application");
+        myStage.setTitle("Login");
 
         //create rootNode
         FlowPane rootNode = new FlowPane(10,10);
@@ -50,6 +51,9 @@ public class Login extends Application {
             if (tfUser.getText().equals("admin") && tfPass.getText().equals("admin")) {
                 rootNode.getChildren().removeAll(lbStart,tfUser,tfPass,btnLogin,lbRes);
                 //rootNode.setPrefHeight(500);
+                myStage.close();
+                app = new App();
+                app.start(myStage);
 
             }
             else {
@@ -60,6 +64,5 @@ public class Login extends Application {
         rootNode.getChildren().addAll(lbStart, tfUser,tfPass,btnLogin,lbRes);
         //show stage
         myStage.show();
-
     }
 }
