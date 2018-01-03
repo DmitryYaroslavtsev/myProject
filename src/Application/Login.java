@@ -1,22 +1,21 @@
 package Application;
 
 import javafx.application.*;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.stage.*;
 
 public class Login extends Application {
 
-    App app;
-    Label lbStart;
-    Label lbRes;
-    TextField tfUser;
-    TextField tfPass;
-    Button btnLogin;
+    private App app;
+    private Label lbStart;
+    private Label lbRes;
+    private TextField tfUser;
+    //TextField tfPass;
+    private PasswordField pfPass;
+    private Button btnLogin;
 
     public static void main(String[] args) {
         launch(args);
@@ -41,27 +40,30 @@ public class Login extends Application {
         lbStart = new Label("Input your credentials");
         tfUser = new TextField();
         tfUser.setPromptText("Username");
-        tfPass = new TextField();
-        tfPass.setPromptText("Password");
+        pfPass = new PasswordField();
+        pfPass.setPromptText("Password");
 
         btnLogin = new Button("Login");
         lbRes = new Label("                                       ");
 
+        //set action for button
         btnLogin.setOnAction((ae) -> {
-            if (tfUser.getText().equals("admin") && tfPass.getText().equals("admin")) {
-                rootNode.getChildren().removeAll(lbStart,tfUser,tfPass,btnLogin,lbRes);
+            if (tfUser.getText().equals("admin") && pfPass.getText().equals("admin")) {
+                rootNode.getChildren().removeAll(lbStart,tfUser,pfPass,btnLogin,lbRes);
                 //rootNode.setPrefHeight(500);
                 myStage.close();
                 app = new App();
                 app.start(myStage);
-
             }
             else {
                 lbRes.setText("       Invalid credentials       ");
             }
         });
+        //set action for text fields
+        tfUser.setOnAction((ae) -> btnLogin.fire());
+        pfPass.setOnAction((ae) -> btnLogin.fire());
 
-        rootNode.getChildren().addAll(lbStart, tfUser,tfPass,btnLogin,lbRes);
+        rootNode.getChildren().addAll(lbStart, tfUser,pfPass,btnLogin,lbRes);
         //show stage
         myStage.show();
     }
