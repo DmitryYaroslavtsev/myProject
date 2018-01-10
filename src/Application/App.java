@@ -20,7 +20,6 @@ public class App extends Application {
         Scene myScene = new Scene(rootNode, 500, 500);
 
         myStage.setScene(myScene);
-        createBtnTest();
 
         rootNode.getChildren().add(createBtnTest());
 
