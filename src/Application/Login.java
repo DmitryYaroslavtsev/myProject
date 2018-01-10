@@ -39,7 +39,7 @@ public class Login extends Application {
         rootNode.setVgap(10);
 
         //create Scene
-        Scene myScene = new Scene(rootNode, 250, 160);
+        Scene myScene = new Scene(rootNode, 300, 160);
         myStage.setResizable(false);
 
         //set scene to stage
