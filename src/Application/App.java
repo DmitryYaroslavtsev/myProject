@@ -21,6 +21,7 @@ public class App extends Application {
         myStage.setScene(myScene);
 
         rootNode.setLeft(addHBox());
+        rootNode.setCenter(addTableView());
         myStage.show();
     }
 
@@ -66,5 +67,29 @@ public class App extends Application {
             //TODO
         });
         return deleteBtn;
+    }
+
+    private TableView addTableView() {
+        TableView table = new TableView();
+        table.setEditable(false);
+
+        TableColumn contactId = new TableColumn("Contact_ID");
+        contactId.setMinWidth(100);
+
+        TableColumn firstName = new TableColumn("First Name");
+        firstName.setMinWidth(100);
+
+        TableColumn secondName = new TableColumn("Second Name");
+        secondName.setMinWidth(100);
+
+        TableColumn phone = new TableColumn("Phone Number");
+        phone.setMinWidth(100);
+
+        TableColumn email = new TableColumn("Email");
+        email.setMinWidth(180);
+
+
+        table.getColumns().addAll(contactId, firstName, secondName, phone, email);
+        return table;
     }
 }
