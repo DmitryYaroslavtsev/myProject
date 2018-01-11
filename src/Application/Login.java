@@ -17,11 +17,6 @@ public class Login extends Application {
     private PasswordField pfPass;
     private Button btnLogin;
 
-    //Variables for DB users
-    private String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
-    private String login = "postgres";
-    private String pass = "postgres";
-
     public static void main(String[] args) {
         launch(args);
     }
