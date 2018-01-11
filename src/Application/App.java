@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
+import java.sql.*;
+
 public class App extends Application {
 
     private final TableView<Person> table = new TableView<>();
@@ -104,10 +106,45 @@ public class App extends Application {
         email.setMinWidth(180);
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-
+        //
+        test();
+        //
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
     }
 
+    String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
+    String login = "postgres";
+    String pass = "postgres";
+
+    ResultSet request(String req) {
+        ResultSet u = null;
+        //Variables for DB users
+
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            try (Connection con = DriverManager.getConnection(urlUsers, login, pass)) {
+                Statement stnm = con.createStatement();
+                //return stnm.executeQuery(req);
+                u = stnm.executeQuery(req);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return u;
+    }
+    void test() {
+        try {
+            ResultSet tt = request("SELECT * FROM users WHERE username like 'admin'");
+            while (tt.next()) {
+                System.out.println(tt.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
