@@ -11,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App extends Application {
 
@@ -23,7 +25,8 @@ public class App extends Application {
     private final TableView<Person> table = new TableView<>();
     private final ObservableList<Person> data =
             FXCollections.observableArrayList(
-                    new Person("1", "Peter", "Belgy", "+79112345678","peter@pisem.net")
+                    //new Person("1", "Peter", "Belgy", "+79112345678","peter@pisem.net"),
+                    fillPerson()
             );
 
 
@@ -87,10 +90,7 @@ public class App extends Application {
         return deleteBtn;
     }
 
-
     private TableView<Person> addTableView() {
-        //TableView table = new TableView();
-        //table.setEditable(false);
 
         TableColumn contactId = new TableColumn("Contact_ID");
         contactId.setMinWidth(100);
@@ -112,9 +112,6 @@ public class App extends Application {
         email.setMinWidth(180);
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-        //
-        //test();
-        //
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
@@ -133,5 +130,22 @@ public class App extends Application {
             e.printStackTrace();
         }
         return resultSet;
+    }
+
+    private ArrayList fillPerson() {
+        ArrayList ll = new ArrayList();
+        String[] str = new String[5];
+        ResultSet resultSet = request("SELECT * FROM jc_contact");
+        try {
+            while (resultSet.next()) {
+                for (int i = 0; i < 5; i++) {
+                    str[i] = resultSet.getString(i+1);
+                }
+                ll.add(new Person(str[0],str[1],str[2],str[3],str[4]));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ll;
     }
 }

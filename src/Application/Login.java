@@ -81,7 +81,7 @@ public class Login extends Application {
 
 
     //Connect to DB for verification of users
-    boolean checkUser(String username, String password) {
+    private boolean checkUser(String username, String password) {
         boolean check = false;
         ResultSet u = App.request("SELECT * FROM users WHERE username like '" + username + "'");
         try {
