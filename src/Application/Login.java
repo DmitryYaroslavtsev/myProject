@@ -85,24 +85,16 @@ public class Login extends Application {
     }
 
 
-    //Connect too DB for verification of users
+    //Connect to DB for verification of users
     boolean checkUser(String username, String password) {
         boolean check = false;
+        ResultSet u = App.request("SELECT * FROM users WHERE username like '" + username + "'");
         try {
-            Class.forName("org.postgresql.Driver");
-            try (Connection con = DriverManager.getConnection(urlUsers, login, pass)) {
-                Statement stmt = con.createStatement();
-                ResultSet u = stmt.executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
-                while (u.next()) {
-                    if (u.getString("username").equals(username)) {
-                        if (u.getString("password").equals(password))
-                            check = true;
-                    }
+        while (u.next()) {
+            if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
+                    check = true;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

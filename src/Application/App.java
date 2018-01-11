@@ -134,16 +134,4 @@ public class App extends Application {
         }
         return resultSet;
     }
-    /*void test() {
-        try {
-            ResultSet tt = request("SELECT * FROM users WHERE username like 'admin'");
-            while (tt.next()) {
-                System.out.println(tt.getString(2));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-    */
 }
