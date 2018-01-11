@@ -18,6 +18,7 @@ public class App extends Application {
                     new Person("1", "Peter", "Belgy", "+79112345678","peter@pisem.net")
             );
 
+
     @Override
     public void start(Stage primaryStage) {
         Stage myStage = new Stage();
@@ -78,9 +79,10 @@ public class App extends Application {
         return deleteBtn;
     }
 
-    private TableView addTableView() {
+
+    private TableView<Person> addTableView() {
         //TableView table = new TableView();
-        table.setEditable(false);
+        //table.setEditable(false);
 
         TableColumn contactId = new TableColumn("Contact_ID");
         contactId.setMinWidth(100);
@@ -107,4 +109,5 @@ public class App extends Application {
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
     }
+
 }
