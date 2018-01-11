@@ -14,6 +14,12 @@ import java.sql.*;
 
 public class App extends Application {
 
+    //Variables for DB users
+    private static String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
+    private static String login = "postgres";
+    private static String pass = "postgres";
+    private static String driver = "org.postgresql.Driver";
+
     private final TableView<Person> table = new TableView<>();
     private final ObservableList<Person> data =
             FXCollections.observableArrayList(
@@ -107,36 +113,28 @@ public class App extends Application {
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         //
-        test();
+        //test();
         //
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
     }
 
-    String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
-    String login = "postgres";
-    String pass = "postgres";
-
-    ResultSet request(String req) {
-        ResultSet u = null;
-        //Variables for DB users
-
-
+    static ResultSet request(String req) {
+        ResultSet resultSet = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(driver);
             try (Connection con = DriverManager.getConnection(urlUsers, login, pass)) {
-                Statement stnm = con.createStatement();
-                //return stnm.executeQuery(req);
-                u = stnm.executeQuery(req);
+                Statement stmn = con.createStatement();
+                resultSet = stmn.executeQuery(req);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return u;
+        return resultSet;
     }
-    void test() {
+    /*void test() {
         try {
             ResultSet tt = request("SELECT * FROM users WHERE username like 'admin'");
             while (tt.next()) {
@@ -147,4 +145,5 @@ public class App extends Application {
         }
 
     }
+    */
 }
