@@ -84,10 +84,8 @@ public class Login extends Application {
     private boolean checkUser(String username, String password) {
         boolean check = false;
         ResultSet u = null;
-        Connection con = null;
         try {
-            con = connection.getConnection();
-            u = con.createStatement().
+            u = connection.getConnection().createStatement().
                     executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
         } catch (SQLException e) {
             e.printStackTrace();
