@@ -16,6 +16,7 @@ public class Login extends Application {
     private TextField tfUser;
     private PasswordField pfPass;
     private Button btnLogin;
+    private static DbConnection connection = new DbConnection();
 
     public static void main(String[] args) {
         launch(args);
@@ -79,14 +80,21 @@ public class Login extends Application {
         myStage.show();
     }
 
-
     //Connect to DB for verification of users
     private boolean checkUser(String username, String password) {
         boolean check = false;
-        ResultSet u = App.request("SELECT * FROM users WHERE username like '" + username + "'");
+        ResultSet u = null;
+        Connection con = null;
         try {
-        while (u.next()) {
-            if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
+            con = connection.getConnection();
+            u = con.createStatement().
+                    executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            while (u.next()) {
+                if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
                     check = true;
                 }
             }

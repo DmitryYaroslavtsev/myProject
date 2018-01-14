@@ -16,10 +16,12 @@ import java.util.ArrayList;
 public class App extends Application {
 
     //Variables for DB users
-    private static String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
+    /*private static String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
     private static String login = "postgres";
     private static String pass = "postgres";
     private static String driver = "org.postgresql.Driver";
+*/
+    public static DbConnection connection = new DbConnection();
 
     private final TableView<Person> table = new TableView<>();
     private final ObservableList<Person> data =
@@ -116,25 +118,18 @@ public class App extends Application {
         return table;
     }
 
-    static ResultSet request(String req) {
-        ResultSet resultSet = null;
-        try {
-            Class.forName(driver);
-            try (Connection con = DriverManager.getConnection(urlUsers, login, pass)) {
-                Statement stmn = con.createStatement();
-                resultSet = stmn.executeQuery(req);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultSet;
-    }
-
+    //
     private ArrayList fillPerson() {
         ArrayList ll = new ArrayList();
         String[] str = new String[5];
-        ResultSet resultSet = request("SELECT * FROM jc_contact");
+        ResultSet resultSet = null;
+        try {
+            resultSet = connection.getConnection().createStatement().
+                    executeQuery("SELECT * FROM jc_contact");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             while (resultSet.next()) {
                 for (int i = 0; i < 5; i++) {
