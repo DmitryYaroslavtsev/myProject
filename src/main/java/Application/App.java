@@ -13,15 +13,17 @@ import javafx.stage.*;
 public class App extends Application {
 
     private final TableView<Person> table = new TableView<>();
-    private final ObservableList<Person> data =
+    private ObservableList<Person> data =
             FXCollections.observableArrayList(DbConnection.fillPerson());
+
+    BorderPane rootNode;
 
     @Override
     public void start(Stage primaryStage) {
         Stage myStage = new Stage();
         myStage.setTitle("Application");
 
-        BorderPane rootNode = new BorderPane();
+        rootNode = new BorderPane();
 
         Scene myScene = new Scene(rootNode, 700, 300);
 
@@ -44,7 +46,9 @@ public class App extends Application {
         Button updateBtn = new Button("Update");
         updateBtn.setPrefSize(100, 20);
         updateBtn.setOnAction((ae) -> {
-            //TODO
+            data = FXCollections.observableArrayList(DbConnection.fillPerson());
+            table.getItems().clear();
+            table.setItems(data);
         });
         return updateBtn;
     }
