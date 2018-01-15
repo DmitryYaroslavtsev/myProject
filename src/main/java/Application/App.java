@@ -16,11 +16,12 @@ public class App extends Application {
     private ObservableList<Person> data =
             FXCollections.observableArrayList(DbConnection.fillPerson());
 
+    Stage myStage;
     BorderPane rootNode;
 
     @Override
     public void start(Stage primaryStage) {
-        Stage myStage = new Stage();
+        myStage = new Stage();
         myStage.setTitle("Application");
 
         rootNode = new BorderPane();
@@ -58,6 +59,7 @@ public class App extends Application {
         addBtn.setPrefSize(100, 20);
         addBtn.setOnAction((ae) -> {
             //TODO
+            addDialog();
         });
         return addBtn;
     }
@@ -105,5 +107,28 @@ public class App extends Application {
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
+    }
+
+    private void addDialog() {
+        Stage addDialog = new Stage();
+        addDialog.setTitle("Add new contact");
+        addDialog.initModality(Modality.WINDOW_MODAL);
+        addDialog.initOwner(myStage);
+        BorderPane pane = new BorderPane();
+        Scene scene = new Scene(pane, 250,400);
+
+        HBox hBox = new HBox();
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setOnAction((ae) -> {addDialog.close();});
+
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(10));
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(okBtn, cancelBtn);
+        pane.setBottom(hBox);
+
+        addDialog.setScene(scene);
+        addDialog.showAndWait();
     }
 }

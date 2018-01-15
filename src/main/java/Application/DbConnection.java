@@ -71,4 +71,8 @@ public class DbConnection {
         }
         return check;
     }
+
+    void updateTable(String[] str) {
+
+    }
 }
