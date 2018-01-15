@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -15,5 +16,8 @@
     <orderEntry type="library" name="postgresql-42.1.4" level="project" />
     <orderEntry type="library" name="Maven: postgresql:postgresql:9.1-901-1.jdbc4" level="project" />
     <orderEntry type="library" name="Maven: c3p0:c3p0:0.9.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.1.0-M1" level="project" />
+    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.1.0-M1" level="project" />
   </component>
 </module>
