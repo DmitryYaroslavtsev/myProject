@@ -84,7 +84,7 @@ public class Login extends Application {
     private boolean checkUser(String username, String password) {
         boolean check = false;
         ResultSet u = null;
-        if (username.contains(";")) {
+        if (username.contains(";") || username.contains("'")) {
             check = false;
         }
         else {
