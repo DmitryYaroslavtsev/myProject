@@ -84,20 +84,25 @@ public class Login extends Application {
     private boolean checkUser(String username, String password) {
         boolean check = false;
         ResultSet u = null;
-        try {
-            u = connection.getConnection().createStatement().
-                    executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (username.contains(";")) {
+            check = false;
         }
-        try {
-            while (u.next()) {
-                if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
-                    check = true;
-                }
-            }
-        } catch (Exception e) {
+        else {
+            try {
+                u = connection.getConnection().createStatement().
+                    executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
+            } catch (SQLException e) {
             e.printStackTrace();
+            }
+            try {
+             while (u.next()) {
+                 if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
+                     check = true;
+                 }
+             }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return check;
     }
