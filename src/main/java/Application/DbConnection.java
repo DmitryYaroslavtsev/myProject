@@ -56,8 +56,8 @@ public class DbConnection {
         if (!username.contains(";") || !username.contains("'")) {
             try {
                 try (Connection con = getConnection()){
-                    ResultSet resultSet = con.
-                            createStatement().executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
+                    ResultSet resultSet = con.createStatement().
+                            executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
                     while (resultSet.next()) {
                         if (resultSet.getString("username").equals(username) &&
                                 resultSet.getString("password").equals(password)) {
@@ -68,7 +68,6 @@ public class DbConnection {
         } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return check;
     }
