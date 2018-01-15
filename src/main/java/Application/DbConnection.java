@@ -2,6 +2,7 @@ package Application;
 
 import com.mchange.v2.c3p0.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DbConnection {
 
@@ -10,7 +11,8 @@ public class DbConnection {
     private static String pass = "postgres";
     private static String driver = "org.postgresql.Driver";
 
-    private ComboPooledDataSource dataSource;
+    private static ComboPooledDataSource dataSource;
+    private static DbConnection connection = new DbConnection();
 
     public DbConnection() {
         try {
@@ -25,7 +27,26 @@ public class DbConnection {
         }
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    static ArrayList fillPerson() {
+        ArrayList ll = new ArrayList();
+        String[] str = new String[5];
+        try {
+            try (Connection con = connection.getConnection()) {
+                ResultSet resultSet = con.createStatement().executeQuery("SELECT * FROM jc_contact");
+                while (resultSet.next()) {
+                    for (int i = 0; i < 5; i++) {
+                        str[i] = resultSet.getString(i + 1);
+                    }
+                    ll.add(new Person(str[0], str[1], str[2], str[3], str[4]));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ll;
     }
 }

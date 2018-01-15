@@ -16,7 +16,6 @@ public class Login extends Application {
     private TextField tfUser;
     private PasswordField pfPass;
     private Button btnLogin;
-    private static DbConnection connection = new DbConnection();
 
     public static void main(String[] args) {
         launch(args);
@@ -89,7 +88,7 @@ public class Login extends Application {
         }
         else {
             try {
-                u = connection.getConnection().createStatement().
+                u = DbConnection.getConnection().createStatement().
                     executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
             } catch (SQLException e) {
             e.printStackTrace();

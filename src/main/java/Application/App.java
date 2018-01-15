@@ -10,20 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
-import java.sql.*;
-import java.util.ArrayList;
-
 public class App extends Application {
-
-    private static DbConnection connection = new DbConnection();
 
     private final TableView<Person> table = new TableView<>();
     private final ObservableList<Person> data =
-            FXCollections.observableArrayList(
-                    //new Person("1", "Peter", "Belgy", "+79112345678","peter@pisem.net"),
-                    fillPerson()
-            );
-
+            FXCollections.observableArrayList(DbConnection.fillPerson());
 
     @Override
     public void start(Stage primaryStage) {
@@ -110,30 +101,5 @@ public class App extends Application {
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
-    }
-
-    //
-    private ArrayList fillPerson() {
-        ArrayList ll = new ArrayList();
-        String[] str = new String[5];
-        ResultSet resultSet = null;
-        try {
-            resultSet = connection.getConnection().createStatement().
-                    executeQuery("SELECT * FROM jc_contact");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            while (resultSet.next()) {
-                for (int i = 0; i < 5; i++) {
-                    str[i] = resultSet.getString(i+1);
-                }
-                ll.add(new Person(str[0],str[1],str[2],str[3],str[4]));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ll;
     }
 }
