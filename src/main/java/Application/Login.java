@@ -62,7 +62,7 @@ public class Login extends Application {
 
         //set action for button
         btnLogin.setOnAction((ae) -> {
-            if (checkUser(tfUser.getText(), pfPass.getText())) {
+            if (DbConnection.checkUser(tfUser.getText(), pfPass.getText())) {
                 myStage.close();
                 app = new App();
                 app.start(myStage);
@@ -77,32 +77,5 @@ public class Login extends Application {
 
         //show stage
         myStage.show();
-    }
-
-    //Connect to DB for verification of users
-    private boolean checkUser(String username, String password) {
-        boolean check = false;
-        ResultSet u = null;
-        if (username.contains(";") || username.contains("'")) {
-            check = false;
-        }
-        else {
-            try {
-                u = DbConnection.getConnection().createStatement().
-                    executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
-            } catch (SQLException e) {
-            e.printStackTrace();
-            }
-            try {
-             while (u.next()) {
-                 if (u.getString("username").equals(username) && u.getString("password").equals(password)) {
-                     check = true;
-                 }
-             }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return check;
     }
 }

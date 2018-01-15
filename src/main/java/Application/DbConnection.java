@@ -49,4 +49,27 @@ public class DbConnection {
         }
         return ll;
     }
+
+    //Verification of user during login to App
+    static boolean checkUser(String username, String password) {
+        boolean check = false;
+        if (!username.contains(";") || !username.contains("'")) {
+            try {
+                try (Connection con = getConnection()){
+                    ResultSet resultSet = con.
+                            createStatement().executeQuery("SELECT * FROM users WHERE username like '" + username + "'");
+                    while (resultSet.next()) {
+                        if (resultSet.getString("username").equals(username) &&
+                                resultSet.getString("password").equals(password)) {
+                            check = true;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return check;
+    }
 }
