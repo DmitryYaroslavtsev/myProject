@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
-import java.sql.*;
 
 public class Login extends Application {
 
