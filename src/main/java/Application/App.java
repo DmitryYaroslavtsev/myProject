@@ -15,13 +15,7 @@ import java.util.ArrayList;
 
 public class App extends Application {
 
-    //Variables for DB users
-    /*private static String urlUsers = "jdbc:postgresql://localhost:5432/myProject";
-    private static String login = "postgres";
-    private static String pass = "postgres";
-    private static String driver = "org.postgresql.Driver";
-*/
-    public static DbConnection connection = new DbConnection();
+    private static DbConnection connection = new DbConnection();
 
     private final TableView<Person> table = new TableView<>();
     private final ObservableList<Person> data =
