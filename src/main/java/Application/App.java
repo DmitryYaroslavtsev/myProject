@@ -38,7 +38,7 @@ public class App extends Application {
         VBox vbox = new VBox(8);
         vbox.setPadding(new Insets(10));
 
-        vbox.getChildren().addAll(addUpdateBtn(), addSaveBtn(), addDeleteBtn());
+        vbox.getChildren().addAll(addUpdateBtn(), addAddBtn(), addChangeBtn(), addDeleteBtn());
         return vbox;
     }
 
@@ -53,8 +53,17 @@ public class App extends Application {
         return updateBtn;
     }
 
-    private Button addSaveBtn() {
-        Button changeBtn = new Button("Save changes");
+    private Button addAddBtn() {
+        Button addBtn = new Button("Add");
+        addBtn.setPrefSize(100, 20);
+        addBtn.setOnAction((ae) -> {
+            //TODO
+        });
+        return addBtn;
+    }
+
+    private Button addChangeBtn() {
+        Button changeBtn = new Button("Change");
         changeBtn.setPrefSize(100, 20);
         changeBtn.setOnAction((ae) -> {
             //TODO
