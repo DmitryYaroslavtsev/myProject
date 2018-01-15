@@ -120,7 +120,7 @@ public class App extends Application {
         HBox hBox = new HBox();
         Button okBtn = new Button("OK");
         Button cancelBtn = new Button("Cancel");
-        cancelBtn.setOnAction((ae) -> {addDialog.close();});
+        cancelBtn.setOnAction((ae) -> addDialog.close());
 
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(10));
