@@ -38,12 +38,12 @@ public class App extends Application {
         VBox vbox = new VBox(8);
         vbox.setPadding(new Insets(10));
 
-        vbox.getChildren().addAll(addUpdateBtn(), addAddBtn(), addChangeBtn(), addDeleteBtn());
+        vbox.getChildren().addAll(addRefreshBtn(), addAddBtn(), addChangeBtn(), addDeleteBtn());
         return vbox;
     }
 
-    private Button addUpdateBtn() {
-        Button updateBtn = new Button("Update");
+    private Button addRefreshBtn() {
+        Button updateBtn = new Button("Refresh");
         updateBtn.setPrefSize(100, 20);
         updateBtn.setOnAction((ae) -> {
             data = FXCollections.observableArrayList(DbConnection.fillPerson());
