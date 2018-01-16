@@ -254,7 +254,7 @@ public class App extends Application {
 
     static boolean nonSqlInjection(String string) {
         boolean result = false;
-        if (!string.contains(";")) result = true;
+        if (!string.contains(";") & (!string.contains("'"))) result = true;
         return result;
     }
 }

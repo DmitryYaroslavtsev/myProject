@@ -15,15 +15,23 @@ class AppTest {
     }
 
     @Test
-    void nonSqlInjection() {
-        String str1 = "test;select * from jc_contact";
-        String str2 = "test'test";
-        String str3 = "test";
-        boolean actual1 = App.nonSqlInjection(str1);
-        boolean actual2 = App.nonSqlInjection(str2);
-        //boolean actual3 = App.nonSqlInjection(str3);
-        boolean actual = actual1 && actual2;
-
+    void nonSqlInjection1() {
+        String str = "test;select * from jc_contact";
+        boolean actual = App.nonSqlInjection(str);
         assertEquals(false, actual);
+    }
+
+    @Test
+    void nonSqlInjection2() {
+        String str = "test'test";
+        boolean actual = App.nonSqlInjection(str);
+        assertEquals(false, actual);
+    }
+
+    @Test
+    void nonSqlInjection3() {
+        String str = "testString";
+        boolean actual = App.nonSqlInjection(str);
+        assertEquals(true, actual);
     }
 }

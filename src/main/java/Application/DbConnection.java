@@ -53,7 +53,7 @@ public class DbConnection {
     //Verification of user during login to App
     static boolean checkUser(String username, String password) {
         boolean check = false;
-        if (!username.contains(";") || !username.contains("'")) {
+        if (!username.contains(";") & !username.contains("'")) {
             try {
                 try (Connection con = getConnection()){
                     ResultSet resultSet = con.createStatement().
