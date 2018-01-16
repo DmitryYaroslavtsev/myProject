@@ -177,70 +177,56 @@ public class App extends Application {
             alert.initOwner(addDialog);
             alert.setTitle("Warning");
 
-            if (tfFirstName.getText().isEmpty()) {
+            if (tfFirstName.getText().isEmpty() | !isNameValid(tfFirstName.getText())) {
                 isEmpty = 1;
             }
-            else if (tfLastName.getText().isEmpty()) {
+            else if (tfLastName.getText().isEmpty() | !isNameValid(tfLastName.getText())) {
                 isEmpty = 2;
             }
-            else if (tfPhone.getText().isEmpty()) {
+            else if (tfPhone.getText().isEmpty() | !isPhoneValid(tfPhone.getText())) {
                 isEmpty = 3;
             }
-            else if (tfEmail.getText().isEmpty()) {
+            else if (tfEmail.getText().isEmpty() |
+                    !EmailValidator.getInstance().isValid(tfEmail.getText())) {
                 isEmpty = 4;
             }
 
             switch (isEmpty) {
                 case 1: {
-                    alert.setHeaderText("First Name is empty!");
-                    alert.setContentText("Please input First Name");
+                    alert.setHeaderText("First Name is invalid!");
+                    alert.setContentText("Please recheck First Name");
                     alert.show();
                     break;
                 }
                 case 2: {
-                    alert.setHeaderText("Last Name is empty!");
-                    alert.setContentText("Please input Last Name");
+                    alert.setHeaderText("Last Name is invalid!");
+                    alert.setContentText("Please recheck Last Name");
                     alert.show();
                     break;
                 }
                 case 3: {
-                    alert.setHeaderText("Phone is empty!");
-                    alert.setContentText("Please input Phone");
+                    alert.setHeaderText("Phone is invalid!");
+                    alert.setContentText("Please recheck Phone");
                     alert.show();
                     break;
                 }
                 case 4: {
-                    alert.setHeaderText("Email is empty!");
-                    alert.setContentText("Please input Email");
+                    alert.setHeaderText("Email is invalid!");
+                    alert.setContentText("Please recheck Email");
                     alert.show();
                     break;
                 }
                 default:
-                    if (!EmailValidator.getInstance().isValid(tfEmail.getText())) {
-                        alert.setHeaderText("Email is invalid!");
-                        alert.setContentText("Please recheck Email");
-                        alert.show();
-                    }
-                    else {
-                        if (!isPhoneValid(tfPhone.getText())) {
-                            alert.setHeaderText("Phone number is invalid!");
-                            alert.setContentText("Please recheck Phone number");
-                            alert.show();
-                        }
-                        else {
-                            DbConnection.updateTable(
-                                    tfFirstName.getText(),
-                                    tfLastName.getText(),
-                                    tfPhone.getText(),
-                                    tfEmail.getText()
-                            );
-                            addDialog.close();
-                            updateBtn.fire();
-                        }
-                    }
+                    DbConnection.updateTable(
+                            tfFirstName.getText(),
+                            tfLastName.getText(),
+                            tfPhone.getText(),
+                            tfEmail.getText()
+                    );
+                    addDialog.close();
+                    updateBtn.fire();
                     break;
             }
-
         });
 
         pane.setBottom(hBox);
