@@ -74,19 +74,22 @@ public class DbConnection {
 
     static void updateTable(String firstName, String lastName, String phone, String email) {
 
-        try {
-            try (Connection con = getConnection()){
-                PreparedStatement stmt = con.prepareStatement("INSERT INTO JC_CONTACT (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES (?, ?, ?, ?)");
-                stmt.setString(1, firstName);
-                stmt.setString(2, lastName);
-                stmt.setString(3, phone);
-                stmt.setString(4, email);
-                stmt.executeUpdate();
-                stmt.close();
-            }
+        if (App.nonSqlInjection(firstName) && App.nonSqlInjection(lastName) &&
+                App.nonSqlInjection(phone) && App.nonSqlInjection(email)) {
+            try {
+                try (Connection con = getConnection()) {
+                    PreparedStatement stmt = con.prepareStatement("INSERT INTO JC_CONTACT (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES (?, ?, ?, ?)");
+                    stmt.setString(1, firstName);
+                    stmt.setString(2, lastName);
+                    stmt.setString(3, phone);
+                    stmt.setString(4, email);
+                    stmt.executeUpdate();
+                    stmt.close();
+                }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
