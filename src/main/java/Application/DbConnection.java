@@ -74,7 +74,7 @@ public class DbConnection {
 
     static void updateTable(String firstName, String lastName, String phone, String email) {
 
-        if (App.nonSqlInjection(firstName) && App.nonSqlInjection(lastName) &&
+        if (App.isNameValid(firstName) && App.isNameValid(lastName) &&
                 App.nonSqlInjection(phone) && App.nonSqlInjection(email)) {
             try {
                 try (Connection con = getConnection()) {

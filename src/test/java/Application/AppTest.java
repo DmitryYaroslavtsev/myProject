@@ -34,4 +34,15 @@ class AppTest {
         boolean actual = App.nonSqlInjection(str);
         assertEquals(true, actual);
     }
+
+    @Test
+    void isNameValid() {
+        String str1 = "TestTest";
+        String str2 = "1TestTest";
+        boolean actual1 = App.isNameValid(str1);
+        boolean actual2 = App.isNameValid(str2);
+
+        assertEquals(true, actual1);
+        assertEquals(false, actual2);
+    }
 }

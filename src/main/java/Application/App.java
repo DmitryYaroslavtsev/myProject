@@ -152,9 +152,13 @@ public class App extends Application {
 
         //Create text fields
         TextField tfFirstName = new TextField();
+        tfFirstName.setPromptText("First Name");
         TextField tfLastName = new TextField();
+        tfLastName.setPromptText("Last Name");
         TextField tfPhone = new TextField();
+        tfPhone.setPromptText("+12345678910");
         TextField tfEmail = new TextField();
+        tfEmail.setPromptText("test@test.com");
 
         //Add text fields
         gridPane.add(tfFirstName, 1,0);
@@ -249,6 +253,12 @@ public class App extends Application {
     static boolean isPhoneValid(String phone) {
         Pattern pattern = Pattern.compile("[+]\\d{11}");
         Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
+    }
+
+    static boolean isNameValid(String name) {
+        Pattern pattern = Pattern.compile("[a-zA-Z]+");
+        Matcher matcher = pattern.matcher(name);
         return matcher.matches();
     }
 
