@@ -16,15 +16,14 @@ public class App extends Application {
     private ObservableList<Person> data =
             FXCollections.observableArrayList(DbConnection.fillPerson());
 
-    Stage myStage;
-    BorderPane rootNode;
+    private Stage myStage;
 
     @Override
     public void start(Stage primaryStage) {
         myStage = new Stage();
         myStage.setTitle("Application");
 
-        rootNode = new BorderPane();
+        BorderPane rootNode = new BorderPane();
 
         Scene myScene = new Scene(rootNode, 700, 300);
 
@@ -115,18 +114,110 @@ public class App extends Application {
         addDialog.initModality(Modality.WINDOW_MODAL);
         addDialog.initOwner(myStage);
         BorderPane pane = new BorderPane();
-        Scene scene = new Scene(pane, 250,400);
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene(pane, 300,200);
 
+        //Set buttons
         HBox hBox = new HBox();
-        Button okBtn = new Button("OK");
-        Button cancelBtn = new Button("Cancel");
-        cancelBtn.setOnAction((ae) -> addDialog.close());
-
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(10));
         hBox.setSpacing(10);
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+        okBtn.setPrefWidth(100);
+        cancelBtn.setPrefWidth(100);
         hBox.getChildren().addAll(okBtn, cancelBtn);
+
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setAlignment(Pos.CENTER);
+
+        //Create labels
+        Label firstName = new Label("First Name");
+        Label lastName = new Label("Last Name");
+        Label phone = new Label("Phone");
+        Label email = new Label("Email");
+
+        //Add labels to pane
+        gridPane.add(firstName, 0,0);
+        gridPane.add(lastName, 0,1);
+        gridPane.add(phone, 0,2);
+        gridPane.add(email, 0,3);
+
+        //Create text fields
+        TextField tfFirstName = new TextField();
+        TextField tfLastName = new TextField();
+        TextField tfPhone = new TextField();
+        TextField tfEmail = new TextField();
+
+        //Add text fields
+        gridPane.add(tfFirstName, 1,0);
+        gridPane.add(tfLastName, 1,1);
+        gridPane.add(tfPhone, 1,2);
+        gridPane.add(tfEmail, 1,3);
+
+        //Set action for cancelBtn
+        cancelBtn.setOnAction((ae) -> addDialog.close());
+
+        //Set action for okBtn
+        okBtn.setOnAction((ae) -> {
+            int isEmpty = 0;
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(addDialog);
+
+            if (tfFirstName.getText().isEmpty()) {
+                isEmpty = 1;
+            }
+            else if (tfLastName.getText().isEmpty()) {
+                isEmpty = 2;
+            }
+            else if (tfPhone.getText().isEmpty()) {
+                isEmpty = 3;
+            }
+            else if (tfEmail.getText().isEmpty()) {
+                isEmpty = 4;
+            }
+
+            switch (isEmpty) {
+                case 1: {
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("First Name is empty!");
+                    alert.setContentText("Please input First Name");
+                    alert.show();
+                    break;
+                }
+                case 2: {
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Last Name is empty!");
+                    alert.setContentText("Please input Last Name");
+                    alert.show();
+                    break;
+                }
+                case 3: {
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Phone is empty!");
+                    alert.setContentText("Please input Phone");
+                    alert.show();
+                    break;
+                }
+                case 4: {
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Email is empty!");
+                    alert.setContentText("Please input Email");
+                    alert.show();
+                    break;
+                }
+                default:
+                    break;
+            }
+
+        });
+
+
         pane.setBottom(hBox);
+        pane.setCenter(gridPane);
+
+
 
         addDialog.setScene(scene);
         addDialog.showAndWait();
