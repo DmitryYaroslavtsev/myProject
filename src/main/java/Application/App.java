@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.*;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class App extends Application {
 
@@ -164,6 +165,7 @@ public class App extends Application {
             int isEmpty = 0;
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(addDialog);
+            alert.setTitle("Warning");
 
             if (tfFirstName.getText().isEmpty()) {
                 isEmpty = 1;
@@ -180,34 +182,35 @@ public class App extends Application {
 
             switch (isEmpty) {
                 case 1: {
-                    alert.setTitle("Warning");
                     alert.setHeaderText("First Name is empty!");
                     alert.setContentText("Please input First Name");
                     alert.show();
                     break;
                 }
                 case 2: {
-                    alert.setTitle("Warning");
                     alert.setHeaderText("Last Name is empty!");
                     alert.setContentText("Please input Last Name");
                     alert.show();
                     break;
                 }
                 case 3: {
-                    alert.setTitle("Warning");
                     alert.setHeaderText("Phone is empty!");
                     alert.setContentText("Please input Phone");
                     alert.show();
                     break;
                 }
                 case 4: {
-                    alert.setTitle("Warning");
                     alert.setHeaderText("Email is empty!");
                     alert.setContentText("Please input Email");
                     alert.show();
                     break;
                 }
                 default:
+                    if (!EmailValidator.getInstance().isValid(tfEmail.getText())) {
+                        alert.setHeaderText("Email is invalid!");
+                        alert.setContentText("Please recheck Email");
+                        alert.show();
+                    }
                     break;
             }
 
@@ -222,4 +225,5 @@ public class App extends Application {
         addDialog.setScene(scene);
         addDialog.showAndWait();
     }
+
 }

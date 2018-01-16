@@ -72,7 +72,7 @@ public class DbConnection {
         return check;
     }
 
-    void updateTable(String[] str) {
+    void updateTable(String fn, String sn, String phone, String email) {
 
     }
 }
