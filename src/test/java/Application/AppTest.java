@@ -21,8 +21,9 @@ class AppTest {
         String str3 = "test";
         boolean actual1 = App.nonSqlInjection(str1);
         boolean actual2 = App.nonSqlInjection(str2);
-        boolean actual3 = App.nonSqlInjection(str3);
+        //boolean actual3 = App.nonSqlInjection(str3);
+        boolean actual = actual1 && actual2;
 
-        assertEquals(false, actual1);
+        assertEquals(false, actual);
     }
 }
