@@ -72,7 +72,21 @@ public class DbConnection {
         return check;
     }
 
-    void updateTable(String fn, String sn, String phone, String email) {
+    static void updateTable(String firstName, String lastName, String phone, String email) {
 
+        try {
+            try (Connection con = getConnection()){
+                PreparedStatement stmt = con.prepareStatement("INSERT INTO JC_CONTACT (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES (?, ?, ?, ?)");
+                stmt.setString(1, firstName);
+                stmt.setString(2, lastName);
+                stmt.setString(3, phone);
+                stmt.setString(4, email);
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

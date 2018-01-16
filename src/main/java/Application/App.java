@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.*;
+import java.util.regex.*;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class App extends Application {
@@ -18,6 +19,10 @@ public class App extends Application {
             FXCollections.observableArrayList(DbConnection.fillPerson());
 
     private Stage myStage;
+    private Button updateBtn;
+    private Button addBtn;
+    private Button changeBtn;
+    private Button deleteBtn;
 
     @Override
     public void start(Stage primaryStage) {
@@ -44,7 +49,7 @@ public class App extends Application {
     }
 
     private Button addRefreshBtn() {
-        Button updateBtn = new Button("Refresh");
+        updateBtn = new Button("Refresh");
         updateBtn.setPrefSize(100, 20);
         updateBtn.setOnAction((ae) -> {
             data = FXCollections.observableArrayList(DbConnection.fillPerson());
@@ -55,7 +60,7 @@ public class App extends Application {
     }
 
     private Button addAddBtn() {
-        Button addBtn = new Button("Add");
+        addBtn = new Button("Add");
         addBtn.setPrefSize(100, 20);
         addBtn.setOnAction((ae) -> {
             //TODO
@@ -65,7 +70,7 @@ public class App extends Application {
     }
 
     private Button addChangeBtn() {
-        Button changeBtn = new Button("Change");
+        changeBtn = new Button("Change");
         changeBtn.setPrefSize(100, 20);
         changeBtn.setOnAction((ae) -> {
             //TODO
@@ -74,7 +79,7 @@ public class App extends Application {
     }
 
     private Button addDeleteBtn() {
-        Button deleteBtn = new Button("Delete");
+        deleteBtn = new Button("Delete");
         deleteBtn.setPrefSize(100, 20);
         deleteBtn.setOnAction((ae) -> {
             //TODO
@@ -162,6 +167,7 @@ public class App extends Application {
 
         //Set action for okBtn
         okBtn.setOnAction((ae) -> {
+
             int isEmpty = 0;
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(addDialog);
@@ -211,19 +217,44 @@ public class App extends Application {
                         alert.setContentText("Please recheck Email");
                         alert.show();
                     }
+                    else {
+                        if (!isPhoneValid(tfPhone.getText())) {
+                            alert.setHeaderText("Phone number is invalid!");
+                            alert.setContentText("Please recheck Phone number");
+                            alert.show();
+                        }
+                        else {
+                            DbConnection.updateTable(
+                                    tfFirstName.getText(),
+                                    tfLastName.getText(),
+                                    tfPhone.getText(),
+                                    tfEmail.getText()
+                            );
+                            addDialog.close();
+                            updateBtn.fire();
+                        }
+                    }
                     break;
             }
 
         });
 
-
         pane.setBottom(hBox);
         pane.setCenter(gridPane);
-
-
 
         addDialog.setScene(scene);
         addDialog.showAndWait();
     }
 
+    static boolean isPhoneValid(String phone) {
+        Pattern pattern = Pattern.compile("[+]\\d{11}");
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches();
+    }
+
+    static boolean nonSqlInjection(String string) {
+        boolean result = true;
+        if (string.contains(";") || string.contains("'")) result = false;
+        return result;
+    }
 }
