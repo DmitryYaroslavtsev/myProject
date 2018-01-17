@@ -72,7 +72,7 @@ public class DbConnection {
         return check;
     }
 
-    static void updateTable(String firstName, String lastName, String phone, String email) {
+    static void insertRecord(String firstName, String lastName, String phone, String email) {
         try {
             try (Connection con = getConnection()) {
                 PreparedStatement stmt = con.prepareStatement("INSERT INTO JC_CONTACT (FIRST_NAME, LAST_NAME, PHONE, EMAIL) VALUES (?, ?, ?, ?)");
@@ -86,5 +86,19 @@ public class DbConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    static int delete(String id) {
+        int result = 0;
+        try {
+            try (Connection con = getConnection()){
+                PreparedStatement ps = con.prepareStatement("DELETE FROM jc_contact WHERE contact_id = " + id);
+                result = ps.executeUpdate();
+                System.out.println(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

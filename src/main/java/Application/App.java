@@ -63,7 +63,6 @@ public class App extends Application {
         addBtn = new Button("Add");
         addBtn.setPrefSize(100, 20);
         addBtn.setOnAction((ae) -> {
-            //TODO
             addDialog();
         });
         return addBtn;
@@ -82,7 +81,30 @@ public class App extends Application {
         deleteBtn = new Button("Delete");
         deleteBtn.setPrefSize(100, 20);
         deleteBtn.setOnAction((ae) -> {
-            //TODO
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(myStage);
+            alert.setTitle("Warning");
+
+            int index = table.getSelectionModel().getSelectedIndex();
+
+            if (index == -1) {
+                alert.setHeaderText("The record isn't selected");
+                alert.setContentText("Please choose the record");
+                alert.show();
+            }
+            else {
+                int res = DbConnection.delete((table.getItems().get(index).getContactId()));
+                if (res == 1) {
+                    alert.setHeaderText("The record was deleted");
+                    alert.show();
+                }
+                else {
+                    alert.setHeaderText("ERROR");
+                    alert.show();
+                }
+                updateBtn.fire();
+            }
         });
         return deleteBtn;
     }
@@ -217,7 +239,7 @@ public class App extends Application {
                     break;
                 }
                 default:
-                    DbConnection.updateTable(
+                    DbConnection.insertRecord(
                             tfFirstName.getText(),
                             tfLastName.getText(),
                             tfPhone.getText(),
