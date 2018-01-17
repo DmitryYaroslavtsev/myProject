@@ -94,7 +94,6 @@ public class DbConnection {
             try (Connection con = getConnection()){
                 PreparedStatement ps = con.prepareStatement("DELETE FROM jc_contact WHERE contact_id = " + id);
                 result = ps.executeUpdate();
-                System.out.println(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
