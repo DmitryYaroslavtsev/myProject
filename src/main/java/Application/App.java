@@ -73,6 +73,7 @@ public class App extends Application {
         changeBtn.setPrefSize(100, 20);
         changeBtn.setOnAction((ae) -> {
             //TODO
+            changeBtn();
         });
         return changeBtn;
     }
@@ -134,6 +135,74 @@ public class App extends Application {
         table.setItems(data);
         table.getColumns().addAll(contactId, firstName, secondName, phone, email);
         return table;
+    }
+
+    private void changeBtn() {
+        paintWin();
+
+    }
+
+    private void paintWin() {
+        Stage addDialog = new Stage();
+        addDialog.setTitle("Add new contact");
+        addDialog.initModality(Modality.WINDOW_MODAL);
+        addDialog.initOwner(myStage);
+        BorderPane pane = new BorderPane();
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene(pane, 300,200);
+
+        //Set buttons
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(10));
+        hBox.setSpacing(10);
+        Button okBtn = new Button("OK");
+        Button cancelBtn = new Button("Cancel");
+        okBtn.setPrefWidth(100);
+        cancelBtn.setPrefWidth(100);
+        hBox.getChildren().addAll(okBtn, cancelBtn);
+
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setAlignment(Pos.CENTER);
+
+        //Create labels
+        Label firstName = new Label("First Name");
+        Label lastName = new Label("Last Name");
+        Label phone = new Label("Phone");
+        Label email = new Label("Email");
+
+        //Add labels to pane
+        gridPane.add(firstName, 0,0);
+        gridPane.add(lastName, 0,1);
+        gridPane.add(phone, 0,2);
+        gridPane.add(email, 0,3);
+
+        //Create text fields
+        TextField tfFirstName = new TextField();
+        tfFirstName.setPromptText("First Name");
+        TextField tfLastName = new TextField();
+        tfLastName.setPromptText("Last Name");
+        TextField tfPhone = new TextField();
+        tfPhone.setPromptText("+12345678910");
+        TextField tfEmail = new TextField();
+        tfEmail.setPromptText("test@test.com");
+
+        //Add text fields
+        gridPane.add(tfFirstName, 1,0);
+        gridPane.add(tfLastName, 1,1);
+        gridPane.add(tfPhone, 1,2);
+        gridPane.add(tfEmail, 1,3);
+        //cancelBtn.setOnAction((ae) -> addDialog.close());
+
+        //Set action for okBtn
+        okBtn.setOnAction((ae) -> {});
+        pane.setBottom(hBox);
+        pane.setCenter(gridPane);
+
+        addDialog.setScene(scene);
+        addDialog.showAndWait();
+
     }
 
     private void addDialog() {
