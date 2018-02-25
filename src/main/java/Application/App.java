@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.*;
+
+import java.sql.Connection;
 import java.util.regex.*;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -137,26 +139,33 @@ public class App extends Application {
         return table;
     }
 
-    private void changeBtn() {
-        paintWin();
 
-    }
+    private Stage dialog;
+    private BorderPane pane;
+    private Scene scene;
+    private HBox hBox;
+    private GridPane gridPane;
+    private Button okBtn;
+    private TextField tfFirstName;
+    private TextField tfLastName;
+    private TextField tfPhone;
+    private TextField tfEmail;
 
     private void paintWin() {
-        Stage addDialog = new Stage();
-        addDialog.setTitle("Add new contact");
-        addDialog.initModality(Modality.WINDOW_MODAL);
-        addDialog.initOwner(myStage);
-        BorderPane pane = new BorderPane();
-        GridPane gridPane = new GridPane();
-        Scene scene = new Scene(pane, 300,200);
+        dialog = new Stage();
+        dialog.setTitle("Contacts");
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(myStage);
+        pane = new BorderPane();
+        gridPane = new GridPane();
+        scene = new Scene(pane, 300,200);
 
         //Set buttons
-        HBox hBox = new HBox();
+        hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
         hBox.setPadding(new Insets(10));
         hBox.setSpacing(10);
-        Button okBtn = new Button("OK");
+        okBtn = new Button("OK");
         Button cancelBtn = new Button("Cancel");
         okBtn.setPrefWidth(100);
         cancelBtn.setPrefWidth(100);
@@ -179,13 +188,13 @@ public class App extends Application {
         gridPane.add(email, 0,3);
 
         //Create text fields
-        TextField tfFirstName = new TextField();
+        tfFirstName = new TextField();
         tfFirstName.setPromptText("First Name");
-        TextField tfLastName = new TextField();
+        tfLastName = new TextField();
         tfLastName.setPromptText("Last Name");
-        TextField tfPhone = new TextField();
+        tfPhone = new TextField();
         tfPhone.setPromptText("+12345678910");
-        TextField tfEmail = new TextField();
+        tfEmail = new TextField();
         tfEmail.setPromptText("test@test.com");
 
         //Add text fields
@@ -193,79 +202,18 @@ public class App extends Application {
         gridPane.add(tfLastName, 1,1);
         gridPane.add(tfPhone, 1,2);
         gridPane.add(tfEmail, 1,3);
-        //cancelBtn.setOnAction((ae) -> addDialog.close());
-
-        //Set action for okBtn
-        okBtn.setOnAction((ae) -> {});
-        pane.setBottom(hBox);
-        pane.setCenter(gridPane);
-
-        addDialog.setScene(scene);
-        addDialog.showAndWait();
-
+        cancelBtn.setOnAction((ae) -> dialog.close());
     }
 
     private void addDialog() {
-        Stage addDialog = new Stage();
-        addDialog.setTitle("Add new contact");
-        addDialog.initModality(Modality.WINDOW_MODAL);
-        addDialog.initOwner(myStage);
-        BorderPane pane = new BorderPane();
-        GridPane gridPane = new GridPane();
-        Scene scene = new Scene(pane, 300,200);
-
-        //Set buttons
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(10));
-        hBox.setSpacing(10);
-        Button okBtn = new Button("OK");
-        Button cancelBtn = new Button("Cancel");
-        okBtn.setPrefWidth(100);
-        cancelBtn.setPrefWidth(100);
-        hBox.getChildren().addAll(okBtn, cancelBtn);
-
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setAlignment(Pos.CENTER);
-
-        //Create labels
-        Label firstName = new Label("First Name");
-        Label lastName = new Label("Last Name");
-        Label phone = new Label("Phone");
-        Label email = new Label("Email");
-
-        //Add labels to pane
-        gridPane.add(firstName, 0,0);
-        gridPane.add(lastName, 0,1);
-        gridPane.add(phone, 0,2);
-        gridPane.add(email, 0,3);
-
-        //Create text fields
-        TextField tfFirstName = new TextField();
-        tfFirstName.setPromptText("First Name");
-        TextField tfLastName = new TextField();
-        tfLastName.setPromptText("Last Name");
-        TextField tfPhone = new TextField();
-        tfPhone.setPromptText("+12345678910");
-        TextField tfEmail = new TextField();
-        tfEmail.setPromptText("test@test.com");
-
-        //Add text fields
-        gridPane.add(tfFirstName, 1,0);
-        gridPane.add(tfLastName, 1,1);
-        gridPane.add(tfPhone, 1,2);
-        gridPane.add(tfEmail, 1,3);
-
-        //Set action for cancelBtn
-        cancelBtn.setOnAction((ae) -> addDialog.close());
+        paintWin();
 
         //Set action for okBtn
         okBtn.setOnAction((ae) -> {
 
             int isEmpty = 0;
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(addDialog);
+            alert.initOwner(dialog);
             alert.setTitle("Warning");
 
             if (tfFirstName.getText().isEmpty() | !isNameValid(tfFirstName.getText())) {
@@ -314,7 +262,7 @@ public class App extends Application {
                             tfPhone.getText(),
                             tfEmail.getText()
                     );
-                    addDialog.close();
+                    dialog.close();
                     updateBtn.fire();
                     break;
             }
@@ -323,8 +271,37 @@ public class App extends Application {
         pane.setBottom(hBox);
         pane.setCenter(gridPane);
 
-        addDialog.setScene(scene);
-        addDialog.showAndWait();
+        dialog.setScene(scene);
+        dialog.showAndWait();
+    }
+
+    private void changeBtn() {
+        paintWin();
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(myStage);
+        alert.setTitle("Warning");
+
+        int index = table.getSelectionModel().getSelectedIndex();
+
+        if (index == -1) {
+            alert.setHeaderText("The record isn't selected");
+            alert.setContentText("Please choose the record");
+            alert.show();
+        }
+        else {
+            tfFirstName.setText(table.getItems().get(index).getFirstName());
+            tfLastName.setText(table.getItems().get(index).getSecondName());
+            tfPhone.setText(table.getItems().get(index).getPhone());
+            tfEmail.setText(table.getItems().get(index).getEmail());
+
+            pane.setBottom(hBox);
+            pane.setCenter(gridPane);
+
+            dialog.setScene(scene);
+            dialog.showAndWait();
+        }
+
     }
 
     static boolean isPhoneValid(String phone) {
